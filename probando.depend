@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1558652374 source:c:\users\jspc9\desktop\probando\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+
