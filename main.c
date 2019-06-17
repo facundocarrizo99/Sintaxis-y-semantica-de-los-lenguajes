@@ -75,9 +75,7 @@ int obtenerFila (int vec[],int a){
         filaPrima=vec[0];
     }
 
-    if (filaPrima==9){
-        filaPrima=pop();
-    }
+    ///Aca saque el if (filaPrima==9), xq lo analizo en el while, cuando sale del while hace el pop
 
 return filaPrima;
 }
@@ -116,21 +114,45 @@ a=operacion[i];
 aux=a;
     while (a!= '\n'){
 
-            //while para que no se conserve la fila y modifique la columna cuando lee el carater (1+1 lee bien el 1 pero deja la fila del numero y modifica la columna con el +)
+            if (a == ' '){
+                i++;
+            }
+
+        //while para que no se conserve la fila y modifique la columna cuando lee el carater (1+1 lee bien el 1 pero deja la fila del numero y modifica la columna con el +)
         columna = evaluarCaracter(aux);
         //printf("%d \n", columna);
         recorrer = obtenerFila (matrizTransicion[estadoActual][columna], a);
-        estadoActual= recorrer;
-        if (estadoActual == 8){
-            printf("%s", "Syntax Error");
-            break;
-        } else if (a=='+' || a=='*' || a=='(' || estadoActual==9){
-         ///Cuando desapilas en digito UNICAMENTE EN DIGITO el puntero pasa a ser el siguiente
-            i++;
-            a=operacion[i];
+
+        ///Aca meti el while, y todo lo que esta adentro lo tiene que cumplir para que pueda seguir
+        while (recorrer != 9){
+            recorrer = obtenerFila (matrizTransicion[estadoActual][columna], a);
+            estadoActual= recorrer;
+            if (estadoActual == 8){
+                printf("%s", "Syntax Error");
+                return 1; //Aca no iba un Break va un return para que termine la opercion
+            }
+
         }
+        ///Esto es lo de else if que no sirve que este adentros
+        if (a=='+' || a=='*' || estadoActual==9){
+             //Cuando desapilas en digito UNICAMENTE EN DIGITO el puntero pasa a ser el siguiente
+                i++;
+                a=operacion[i];
+                if ( a=='(' || a==')' || estadoActual==9){
+             //Cuando desapilas en digito UNICAMENTE EN DIGITO el puntero pasa a ser el siguiente
+                i++;
+                a=operacion[i];
+
+                }
+                /// aca no se como decirle lo del pop, siento que no lo hace completamente
+                estadoActual=pop();
+            }
+
         i++;
         a=operacion[i];
         aux=a;
     }
+
+    printf("%s", "La Ecuacion ingresada es Correcta");
+    return 0;
 }
